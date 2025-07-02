@@ -8,11 +8,16 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import ResearchOpportunityCard from "@/components/ResearchOpportunityCard";
 import FeaturedPrograms from "@/components/FeaturedPrograms";
-import { researchOpportunities } from "@/data/researchData";
+import { useAuth } from "@/hooks/useAuth";
+import { useResearchOpportunities } from "@/hooks/useResearchOpportunities";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { user, signOut } = useAuth();
+  const { data: researchOpportunities = [], isLoading } = useResearchOpportunities();
+  const navigate = useNavigate();
 
   const categories = [
     { id: "all", label: "All Research" },
@@ -32,6 +37,10 @@ const Index = () => {
     
     return matchesSearch && matchesCategory;
   });
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
@@ -53,8 +62,23 @@ const Index = () => {
               <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</a>
             </nav>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">Sign In</Button>
-              <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Join Now</Button>
+              {user ? (
+                <>
+                  <span className="text-sm text-gray-600">Welcome, {user.email}</span>
+                  <Button variant="outline" size="sm" onClick={handleSignOut}>
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
+                    Sign In
+                  </Button>
+                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate('/auth')}>
+                    Join Now
+                  </Button>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -112,7 +136,7 @@ const Index = () => {
               <div className="text-gray-600">Active Research Labs</div>
             </div>
             <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">150+</div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">{researchOpportunities.length}+</div>
               <div className="text-gray-600">Research Opportunities</div>
             </div>
             <div>
@@ -140,13 +164,19 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredOpportunities.map((opportunity) => (
-              <ResearchOpportunityCard key={opportunity.id} opportunity={opportunity} />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="text-center py-12">
+              <div className="text-gray-600">Loading research opportunities...</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredOpportunities.map((opportunity) => (
+                <ResearchOpportunityCard key={opportunity.id} opportunity={opportunity} />
+              ))}
+            </div>
+          )}
 
-          {filteredOpportunities.length === 0 && (
+          {!isLoading && filteredOpportunities.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-400 mb-4">
                 <Search className="h-16 w-16 mx-auto" />

@@ -9,7 +9,166 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      applications: {
+        Row: {
+          additional_notes: string | null
+          cover_letter: string | null
+          created_at: string | null
+          id: string
+          opportunity_id: string | null
+          status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          additional_notes?: string | null
+          cover_letter?: string | null
+          created_at?: string | null
+          id?: string
+          opportunity_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          additional_notes?: string | null
+          cover_letter?: string | null
+          created_at?: string | null
+          id?: string
+          opportunity_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "research_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          bio: string | null
+          created_at: string | null
+          department: string | null
+          email: string
+          full_name: string | null
+          id: string
+          major: string | null
+          university: string | null
+          updated_at: string | null
+          year_of_study: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string | null
+          department?: string | null
+          email: string
+          full_name?: string | null
+          id: string
+          major?: string | null
+          university?: string | null
+          updated_at?: string | null
+          year_of_study?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string | null
+          department?: string | null
+          email?: string
+          full_name?: string | null
+          id?: string
+          major?: string | null
+          university?: string | null
+          updated_at?: string | null
+          year_of_study?: string | null
+        }
+        Relationships: []
+      }
+      research_opportunities: {
+        Row: {
+          category: string
+          created_at: string | null
+          description: string
+          duration: string
+          email: string
+          funding: string | null
+          id: string
+          is_active: boolean | null
+          keywords: string[] | null
+          lab: string
+          professor: string
+          requirements: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          description: string
+          duration: string
+          email: string
+          funding?: string | null
+          id?: string
+          is_active?: boolean | null
+          keywords?: string[] | null
+          lab: string
+          professor: string
+          requirements?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          description?: string
+          duration?: string
+          email?: string
+          funding?: string | null
+          id?: string
+          is_active?: boolean | null
+          keywords?: string[] | null
+          lab?: string
+          professor?: string
+          requirements?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      saved_opportunities: {
+        Row: {
+          created_at: string | null
+          id: string
+          opportunity_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          opportunity_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          opportunity_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_opportunities_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "research_opportunities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
