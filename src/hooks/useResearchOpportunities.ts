@@ -44,7 +44,7 @@ export const useResearchOpportunities = () => {
         duration: opportunity.duration,
         funding: opportunity.funding,
         requirements: opportunity.requirements || [],
-        isActive: opportunity.is_active
+        is_active: opportunity.is_active
       }));
     }
   });

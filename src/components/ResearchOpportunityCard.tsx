@@ -16,7 +16,7 @@ interface ResearchOpportunity {
   duration: string;
   funding?: string;
   requirements: string[];
-  isActive: boolean;
+  is_active: boolean;
 }
 
 interface ResearchOpportunityCardProps {
@@ -29,10 +29,10 @@ const ResearchOpportunityCard = ({ opportunity }: ResearchOpportunityCardProps) 
       <CardHeader className="pb-4">
         <div className="flex justify-between items-start mb-2">
           <Badge 
-            variant={opportunity.isActive ? "default" : "secondary"} 
-            className={opportunity.isActive ? "bg-green-100 text-green-800" : ""}
+            variant={opportunity.is_active ? "default" : "secondary"} 
+            className={opportunity.is_active ? "bg-green-100 text-green-800" : ""}
           >
-            {opportunity.isActive ? "Active" : "Inactive"}
+            {opportunity.is_active ? "Active" : "Inactive"}
           </Badge>
           <Badge variant="outline" className="text-xs">
             {opportunity.category.toUpperCase()}
@@ -56,9 +56,9 @@ const ResearchOpportunityCard = ({ opportunity }: ResearchOpportunityCardProps) 
       </CardHeader>
 
       <CardContent className="pt-0">
-        <p className="text-gray-700 text-sm mb-4 line-clamp-3">
+        <div className="text-gray-700 text-sm mb-4 line-clamp-3">
           {opportunity.description}
-        </p>
+        </div>
 
         <div className="flex items-center gap-2 mb-4 text-sm text-gray-600">
           <Calendar className="h-4 w-4" />
