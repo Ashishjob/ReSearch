@@ -105,6 +105,7 @@ export type Database = {
           requirements: string[] | null
           title: string
           updated_at: string | null
+          website: string | null
         }
         Insert: {
           category: string
@@ -121,6 +122,7 @@ export type Database = {
           requirements?: string[] | null
           title: string
           updated_at?: string | null
+          website?: string | null
         }
         Update: {
           category?: string
@@ -137,6 +139,7 @@ export type Database = {
           requirements?: string[] | null
           title?: string
           updated_at?: string | null
+          website?: string | null
         }
         Relationships: []
       }

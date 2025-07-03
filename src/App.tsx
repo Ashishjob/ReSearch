@@ -8,6 +8,11 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import AdminDashboard from "./pages/Admin";
+import ResearchGuidePage from "./pages/Help";
+import Header from "./components/Header";
+import AboutPage from "./pages/About";
+import ResearchOpportunityGridPage from "./pages/Research";
 
 const queryClient = new QueryClient();
 
@@ -18,9 +23,14 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <Header />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/help" element={<ResearchGuidePage />} />
+            <Route path="/research" element={<ResearchOpportunityGridPage />} />
+            <Route path="/about" element={<AboutPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

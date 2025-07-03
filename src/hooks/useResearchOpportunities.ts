@@ -15,6 +15,7 @@ interface ResearchOpportunity {
   funding?: string;
   requirements: string[];
   is_active: boolean;
+  website?: string;
 }
 
 export const useResearchOpportunities = () => {
@@ -44,7 +45,8 @@ export const useResearchOpportunities = () => {
         duration: opportunity.duration,
         funding: opportunity.funding,
         requirements: opportunity.requirements || [],
-        is_active: opportunity.is_active
+        is_active: opportunity.is_active,
+        website: opportunity.website || null
       }));
     }
   });

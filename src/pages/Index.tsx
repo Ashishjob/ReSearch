@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import ResearchOpportunityCard from "@/components/ResearchOpportunityCard";
-import FeaturedPrograms from "@/components/FeaturedPrograms";
 import { useAuth } from "@/hooks/useAuth";
 import { useResearchOpportunities } from "@/hooks/useResearchOpportunities";
 import { useNavigate } from "react-router-dom";
@@ -44,45 +43,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <GraduationCap className="h-8 w-8 text-blue-600" />
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">ResearchHub</h1>
-                <p className="text-xs text-gray-500">University of Houston</p>
-              </div>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Research</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Labs</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Programs</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</a>
-            </nav>
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <>
-                  <span className="text-sm text-gray-600">Welcome, {user.email}</span>
-                  <Button variant="outline" size="sm" onClick={handleSignOut}>
-                    Sign Out
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>
-                    Sign In
-                  </Button>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate('/auth')}>
-                    Join Now
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="relative py-20">
@@ -151,9 +111,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Programs */}
-      <FeaturedPrograms />
-
       {/* Research Opportunities */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -192,16 +149,15 @@ const Index = () => {
       <section className="py-16 bg-blue-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Research Journey?</h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join our community of student researchers and connect with world-class faculty at the University of Houston.
+          <p className="text-lg text-white mb-8 w-1/2 justify-center mx-auto">
+            Whether you&apos;re looking for a summer internship, a research assistant position, or just want to explore new fields, we have opportunities for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
-              Browse All Opportunities
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
-              Submit Your Research
-            </Button>
+            <a href="/research" className="inline-block">
+              <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100">
+                Browse All Opportunities
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -238,15 +194,13 @@ const Index = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>University of Houston</li>
-                <li>Houston, TX 77204</li>
-                <li>research@uh.edu</li>
+                <li><a href="mailto:ashishjob104@gmail.com" className="hover:text-white transition-colors">ashishjob104@gmail.com</a></li>
               </ul>
             </div>
           </div>
           <Separator className="my-8 bg-gray-700" />
           <div className="text-center text-gray-400">
-            <p>&copy; 2024 ResearchHub - University of Houston. All rights reserved.</p>
+            <p>&copy; 2025 ReSearch. All rights reserved.</p>
           </div>
         </div>
       </footer>
