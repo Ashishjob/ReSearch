@@ -171,6 +171,93 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      },
+      volunteer_studies: {
+        Row: {
+          id: string
+          title: string
+          department: string
+          description?: string
+          location?: string
+          compensation_type?: string
+          compensation_details?: string
+          eligibility_criteria?: string
+          duration?: string
+          study_link?: string
+          contact_email?: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          department: string
+          description?: string
+          location?: string
+          compensation_type?: string
+          compensation_details?: string
+          eligibility_criteria?: string
+          duration?: string
+          study_link?: string
+          contact_email?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          department?: string
+          description?: string
+          location?: string
+          compensation_type?: string
+          compensation_details?: string
+          eligibility_criteria?: string
+          duration?: string
+          study_link?: string
+          contact_email?: string
+        }
+        Relationships: []
+      },
+      public_submissions: {
+        Row: {
+          id: string
+          type: string
+          title: string
+          department?: string
+          description: string | null
+          location?: string | null
+          compensation_type?: string | null
+          compensation_details?: string | null
+          eligibility_criteria?: string | null
+          duration?: string | null
+          study_link?: string | null
+          contact_email: string | null
+        }
+        Insert: {
+          id?: string
+          type: string
+          title: string
+          department?: string
+          description?: string | null
+          location?: string | null
+          compensation_type?: string | null
+          compensation_details?: string | null
+          eligibility_criteria?: string | null
+          duration?: string | null
+          study_link?: string | null
+          contact_email?: string | null
+        }
+        Update: {
+          id?: string
+          type?: string
+          title?: string
+          department?: string
+          description?: string | null
+          location?: string | null
+          compensation_type?: string | null
+          compensation_details?: string | null
+          eligibility_criteria?: string | null
+          duration?: string | null
+          study_link?: string | null
+          contact_email?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 
 const categories = [
   { id: "all", label: "All Research" },
-  { id: "ai", label: "AI & Machine Learning" },
-  { id: "health", label: "Health & Medicine" },
-  { id: "engineering", label: "Engineering" },
-  { id: "data", label: "Data Science" },
-  { id: "robotics", label: "Robotics" },
+  { id: "engineering", label: "Engineering & Technology" },
+  { id: "health", label: "Health & Biomedical" },
+  { id: "science", label: "Natural Sciences" },
+  { id: "social", label: "Social & Behavioral" },
+  { id: "arts", label: "Arts & Humanities" },
+  { id: "business", label: "Business & Management" },
 ];
 
 const ResearchOpportunityGridPage = () => {

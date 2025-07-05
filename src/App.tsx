@@ -13,6 +13,11 @@ import ResearchGuidePage from "./pages/Help";
 import Header from "./components/Header";
 import AboutPage from "./pages/About";
 import ResearchOpportunityGridPage from "./pages/Research";
+import Volunteer from "./pages/Volunteer";
+import Footer from "./components/Footer";
+import EmailTipsPage from "./pages/EmailTips";
+import GuidesPage from "./pages/Guides";
+import SubmitPage from "./pages/Submit";
 
 const queryClient = new QueryClient();
 
@@ -31,9 +36,13 @@ const App = () => (
             <Route path="/help" element={<ResearchGuidePage />} />
             <Route path="/research" element={<ResearchOpportunityGridPage />} />
             <Route path="/about" element={<AboutPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/guides" element={<GuidesPage />} />
+            <Route path="/email-tips" element={<EmailTipsPage />} />
+            <Route path="/submit" element={<SubmitPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

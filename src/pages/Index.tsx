@@ -10,6 +10,8 @@ import ResearchOpportunityCard from "@/components/ResearchOpportunityCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useResearchOpportunities } from "@/hooks/useResearchOpportunities";
 import { useNavigate } from "react-router-dom";
+import VolunteerStudyCard from "@/components/VolunteerStudyCard";
+import useVolunteerStudies from "@/hooks/useVolunteerStudies";
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +19,7 @@ const Index = () => {
   const { user, signOut } = useAuth();
   const { data: researchOpportunities = [], isLoading } = useResearchOpportunities();
   const navigate = useNavigate();
+  const { data: volunteerStudies = [], isLoading: isVolunteerLoading } = useVolunteerStudies();
 
   const categories = [
     { id: "all", label: "All Research" },
@@ -49,39 +52,18 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Discover Your Next 
-              <span className="text-blue-600 block">Research Opportunity</span>
+              Discover Your Newest <span className="text-blue-600 block">Research Opportunities</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Connect with cutting-edge research labs at the University of Houston. 
-              Find undergraduate research positions, fellowships, and academic opportunities that match your interests.
+            <p className="text-xl text-gray-600 mb-4 max-w-3xl mx-auto">
+              Whether you're looking to join a lab as a research assistant or volunteer for exciting studies, find opportunities that match your interests and grow your academic journey.
             </p>
-            
-            {/* Search Bar */}
-            <div className="max-w-4xl mx-auto mb-8">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <Input
-                  placeholder="Search research opportunities, labs, or keywords..."
-                  className="pl-12 pr-4 py-6 text-lg rounded-full border-2 border-gray-200 focus:border-blue-500 shadow-lg"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Category Filters */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
-              {categories.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`rounded-full ${selectedCategory === category.id ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
-                >
-                  {category.label}
-                </Button>
-              ))}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center my-6">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700" onClick={() => navigate('/research')}>
+                Explore Research Assistant Roles
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => navigate('/volunteer')}>
+                Browse Volunteer Studies
+              </Button>
             </div>
           </div>
         </div>
@@ -101,7 +83,7 @@ const Index = () => {
             </div>
             <div>
               <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-600">Student Researchers</div>
+              <div className="text-gray-600">Student Researchers & Volunteers</div>
             </div>
             <div>
               <div className="text-3xl font-bold text-blue-600 mb-2">$2M+</div>
@@ -110,6 +92,7 @@ const Index = () => {
           </div>
         </div>
       </section>
+      
 
       {/* Research Opportunities */}
       <section className="py-16">
@@ -117,33 +100,70 @@ const Index = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Research Opportunities</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explore undergraduate research positions in various fields at the University of Houston
+              Explore research assistant roles across labs and programs at the University of Houston.
             </p>
           </div>
 
           {isLoading ? (
-            <div className="text-center py-12">
-              <div className="text-gray-600">Loading research opportunities...</div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredOpportunities.map((opportunity) => (
-                <ResearchOpportunityCard key={opportunity.id} opportunity={opportunity} />
-              ))}
-            </div>
-          )}
-
-          {!isLoading && filteredOpportunities.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <Search className="h-16 w-16 mx-auto" />
+            <div className="text-center py-12 text-gray-600">Loading research opportunities...</div>
+          ) : filteredOpportunities.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredOpportunities.slice(0, 3).map((opportunity) => (
+                  <ResearchOpportunityCard key={opportunity.id} opportunity={opportunity} />
+                ))}
               </div>
+              <div className="mt-10">
+                <Button
+                  onClick={() => navigate('/research')}
+                  className="w-full text-white bg-blue-600 hover:bg-blue-700 text-lg py-6 rounded-lg"
+                >
+                  View All Research Opportunities →
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-12">
+              <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No research opportunities found</h3>
               <p className="text-gray-600">Try adjusting your search terms or category filters.</p>
             </div>
           )}
         </div>
       </section>
+
+      {/* Featured Volunteer Studies */}
+      <section className="py-16 ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Volunteer Studies</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Not ready to join a lab yet? Participate in meaningful research as a study volunteer and help power discovery.
+            </p>
+          </div>
+
+          {volunteerStudies.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {volunteerStudies.slice(0, 3).map((study) => (
+                  <VolunteerStudyCard key={study.id} study={study} />
+                ))}
+              </div>
+              <div className="mt-10">
+                <Button
+                  onClick={() => navigate('/volunteer')}
+                  className="w-full text-white bg-blue-600 hover:bg-blue-700 text-lg py-6 rounded-lg"
+                >
+                  View All Volunteer Studies →
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center text-gray-600 py-12">No volunteer studies available at this time.</div>
+          )}
+        </div>
+      </section>
+
 
       {/* Call to Action */}
       <section className="py-16 bg-blue-600">
@@ -161,49 +181,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <GraduationCap className="h-6 w-6" />
-                <span className="text-lg font-bold">ResearchHub</span>
-              </div>
-              <p className="text-gray-400">
-                Connecting students with research opportunities at the University of Houston.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Research</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Browse Opportunities</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Research Labs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Faculty Directory</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Programs</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Summer Programs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Fellowships</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">REU Programs</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="mailto:ashishjob104@gmail.com" className="hover:text-white transition-colors">ashishjob104@gmail.com</a></li>
-              </ul>
-            </div>
-          </div>
-          <Separator className="my-8 bg-gray-700" />
-          <div className="text-center text-gray-400">
-            <p>&copy; 2025 ReSearch. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };
