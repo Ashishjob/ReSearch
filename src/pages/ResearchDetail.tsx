@@ -2,21 +2,39 @@ import { useParams } from "react-router-dom";
 import { useResearchOpportunities } from "@/hooks/useResearchOpportunities";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Mail } from "lucide-react";
+import { ExternalLink, Mail, Share2 } from "lucide-react";
 import { useState } from "react";
 import { useSavedItems } from "@/hooks/useSavedItems";
 import { Heart } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function ResearchDetail() {
   const { id } = useParams();
-  const { data: opportunities } = useResearchOpportunities();
+  const { data: opportunities, isLoading } = useResearchOpportunities();
   const [showOGPreview, setShowOGPreview] = useState(true);
   const { toggleSave, isSaved } = useSavedItems("research");
+  const { toast } = useToast();
   
   const opportunity = opportunities?.find((o) => o.id === id);
-  const saved = isSaved(opportunity.id);
 
   if (!opportunity) return <p className="p-6 text-gray-500">Loading...</p>;
+
+  if (isLoading || !opportunity) {
+    return <p className="p-6 text-gray-500">Loading study...</p>;
+  }
+
+  const saved = isSaved(opportunity.id);
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/research/${opportunity.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      toast({
+        title: "Link copied!",
+        description: "The page link has been copied to your clipboard.",
+        duration: 3000,
+      });
+    });
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
@@ -87,7 +105,7 @@ export default function ResearchDetail() {
       <div className="mt-8 border-t pt-6">
         <h2 className="text-xl font-semibold mb-2">Get Involved</h2>
         <p className="text-sm text-gray-500 mb-4">
-          Click below to explore tips on how to email professors effectively.
+          Click below to explore tips on how to email professors effectively and to learn more.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button
@@ -100,7 +118,7 @@ export default function ResearchDetail() {
           </Button>
 
           <a href={`mailto:${opportunity.email}`}>
-            <Button variant="default" className="text-sm" size="sm">
+            <Button variant="default" className="text-sm w-full" size="sm">
               <Mail className="w-4 h-4 mr-1" />
               Contact Professor
             </Button>
@@ -108,12 +126,22 @@ export default function ResearchDetail() {
 
           {opportunity.website && (
             <a href={opportunity.website} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="text-sm" size="sm">
+              <Button variant="outline" className="text-sm w-full" size="sm">
                 <ExternalLink className="w-4 h-4 mr-1" />
                 Visit Website
               </Button>
             </a>
           )}
+
+          <Button
+            onClick={handleShare}
+            variant="outline"
+            size="sm"
+            className="text-sm"
+          >
+            <Share2 className="w-4 h-4 mr-1" />
+            Share Opportunity
+          </Button>
         </div>
       </div>
     </div>

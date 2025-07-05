@@ -1,9 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Calendar, DollarSign, MapPin, Heart, HeartOff } from "lucide-react";
+import { Users, Calendar, DollarSign, MapPin, Heart, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSavedItems } from "@/hooks/useSavedItems";
+import { useToast } from "@/components/ui/use-toast";
 
 export interface VolunteerStudy {
   id: string;
@@ -26,6 +27,19 @@ interface VolunteerStudyCardProps {
 export default function VolunteerStudyCard({ study }: VolunteerStudyCardProps) {
   const { toggleSave, isSaved } = useSavedItems("volunteer");
   const saved = isSaved(study.id);
+  const { toast } = useToast();
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const url = window.location.origin + `/volunteer/${study.id}`; // or `/volunteer/${study.id}`
+    navigator.clipboard.writeText(url).then(() => {
+      toast({
+        title: "Link copied!",
+        description: "The page link has been copied to your clipboard.",
+        duration: 3000,
+      });
+    });
+  };
 
   if (!study || !study.id) {
     return null;
@@ -111,6 +125,10 @@ export default function VolunteerStudyCard({ study }: VolunteerStudyCardProps) {
                 </Button>
               </a>
             )}
+
+            <Button onClick={handleShare} variant="outline" size="icon" className="w-full text-gray-500 hover:text-blue-600">
+              Share <Share2 className="w-2 h-2" />
+            </Button>
           </div>
         </CardContent>
       </Card>

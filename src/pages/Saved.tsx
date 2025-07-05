@@ -33,7 +33,7 @@ export default function SavedItemsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500">You haven’t saved any research opportunities yet.</p>
+            <p className="text-gray-500">You haven&apos;t saved any research opportunities yet.</p>
           )}
         </TabsContent>
 
@@ -45,7 +45,7 @@ export default function SavedItemsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500">You haven’t saved any volunteer studies yet.</p>
+            <p className="text-gray-500">You haven&apos;t saved any volunteer studies yet.</p>
           )}
         </TabsContent>
       </Tabs>

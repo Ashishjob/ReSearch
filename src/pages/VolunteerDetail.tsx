@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Mail, Calendar, MapPin, DollarSign } from "lucide-react";
 import useVolunteerStudies from "@/hooks/useVolunteerStudies";
 import { useSavedItems } from "@/hooks/useSavedItems";
-import { Heart } from "lucide-react";
+import { Heart, Share2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 interface VolunteerStudy {
   id: string;
@@ -24,8 +25,20 @@ export default function VolunteerStudyDetail() {
   const { id } = useParams();
   const { data: studies } = useVolunteerStudies();
   const { toggleSave, isSaved } = useSavedItems("volunteer");
+  const {toast} = useToast();
 
   const study = studies?.find((s) => String(s.id) === id) as unknown as VolunteerStudy | undefined;
+
+  const handleShare = () => {
+    const url = `${window.location.origin}/volunteer/${study.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      toast({
+        title: "Link copied!",
+        description: "The study link has been copied to your clipboard.",
+        duration: 3000,
+      });
+    });
+  };
 
   if (!study) return <p className="p-6 text-gray-500">Loading...</p>;
   const saved = isSaved(study.id);
@@ -112,7 +125,7 @@ export default function VolunteerStudyDetail() {
         <div className="flex flex-col sm:flex-row gap-3">
           {study.study_link && (
             <a href={study.study_link} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="text-sm" size="sm">
+              <Button variant="outline" className="text-sm w-full" size="sm">
                 <ExternalLink className="w-4 h-4 mr-1" />
                 Study Website
               </Button>
@@ -121,12 +134,23 @@ export default function VolunteerStudyDetail() {
 
           {study.contact_email && (
             <a href={`mailto:${study.contact_email}`}>
-              <Button variant="default" className="text-sm" size="sm">
+              <Button variant="default" className="text-sm w-full" size="sm">
                 <Mail className="w-4 h-4 mr-1" />
                 Contact Coordinator
               </Button>
             </a>
           )}
+
+          <Button
+            onClick={handleShare}
+            variant="outline"
+            className="text-sm"
+            size="sm"
+          >
+            <Share2 className="w-4 h-4 mr-1" />
+            Share Study
+          </Button>
+
         </div>
       </div>
     </div>

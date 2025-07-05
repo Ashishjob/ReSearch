@@ -2,9 +2,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { MapPin, Users, Calendar, BookOpen, Heart, HeartOff } from "lucide-react";
+import { MapPin, Users, Calendar, BookOpen, Heart, HeartOff, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSavedItems } from "@/hooks/useSavedItems";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ResearchOpportunity {
   id: string;
@@ -29,6 +30,19 @@ interface ResearchOpportunityCardProps {
 const ResearchOpportunityCard = ({ opportunity }: ResearchOpportunityCardProps) => {
   const { toggleSave, isSaved } = useSavedItems("research");
   const saved = isSaved(opportunity.id);
+  const { toast } = useToast();
+
+    const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const url = window.location.origin + `/research/${opportunity.id}`; // or `/volunteer/${study.id}`
+    navigator.clipboard.writeText(url).then(() => {
+      toast({
+        title: "Link copied!",
+        description: "The page link has been copied to your clipboard.",
+        duration: 3000,
+      });
+    });
+  };
 
   if (!opportunity || !opportunity.is_active) {
     return null;
@@ -120,6 +134,9 @@ const ResearchOpportunityCard = ({ opportunity }: ResearchOpportunityCardProps) 
               Contact {opportunity.professor.split(' ')[3] || opportunity.professor}
             </Button>
           </a>
+          <Button onClick={handleShare} variant="outline" size="icon" className="w-full text-gray-500 hover:text-blue-600">
+            Share <Share2 className="w-2 h-2" />
+          </Button>
         </div>
       </CardContent>
     </Card>

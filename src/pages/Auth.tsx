@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
 import { GraduationCap, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { supabase } from '@/integrations/supabase/client';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,8 @@ const Auth = () => {
   const [error, setError] = useState('');
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [resetSent, setResetSent] = useState(false);
 
   // Redirect if already logged in
   if (user) {
@@ -46,14 +49,26 @@ const Auth = () => {
     setLoading(true);
     setError('');
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
     const { error } = await signUp(email, password, fullName);
-    
+    setError(error ? error.message : 'Check your email for confirmation link!');
+    setLoading(false);
+  };
+
+  const handleForgotPassword = async () => {
+    setLoading(true);
+    setError('');
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) {
       setError(error.message);
     } else {
-      setError('Check your email for a confirmation link!');
+      setResetSent(true);
     }
-    
     setLoading(false);
   };
 
@@ -95,6 +110,7 @@ const Auth = () => {
                       required
                     />
                   </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="signin-password">Password</Label>
                     <Input
@@ -106,12 +122,27 @@ const Auth = () => {
                       required
                     />
                   </div>
+
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
+
+                  <div className="text-center text-sm">
+                    {resetSent ? (
+                      <span className="text-green-600">Reset email sent!</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleForgotPassword}
+                        className="text-blue-600 hover:underline"
+                      >
+                        Forgot password?
+                      </button>
+                    )}
+                  </div>
                 </form>
               </TabsContent>
-              
+
               <TabsContent value="signup">
                 <form onSubmit={handleSignUp} className="space-y-4">
                   <div className="space-y-2">
@@ -147,6 +178,15 @@ const Auth = () => {
                       required
                     />
                   </div>
+                  <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                  <Input
+                    id="signup-confirm-password"
+                    type="password"
+                    placeholder="Confirm password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
                   <Button type="submit" className="w-full" disabled={loading}>
                     {loading ? 'Creating account...' : 'Sign Up'}
                   </Button>
