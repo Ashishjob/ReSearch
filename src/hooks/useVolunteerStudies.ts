@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 type VolunteerStudy = {
-  // Replace these fields with the actual columns from your "volunteer_studies" table
-  id: number;
-  // name: string;
-  // description: string;
-  // Add other fields as needed
+  id: string;
+  title: string;
+  department: string;
+  description?: string;
+  location?: string;
+  compensation_type?: string;
+  compensation_details?: string;
+  eligibility_criteria?: string;
+  duration?: string;
+  study_link?: string;
+  contact_email?: string;
 };
 
 export default function useVolunteerStudies() {

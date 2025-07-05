@@ -47,6 +47,9 @@ const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => navigate('/saved')}>
+                    Saved Items
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={signOut}>
                     Sign Out
                   </DropdownMenuItem>

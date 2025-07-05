@@ -1,9 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, Calendar, DollarSign, MapPin } from "lucide-react";
+import { Users, Calendar, DollarSign, MapPin, Heart, HeartOff } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useSavedItems } from "@/hooks/useSavedItems";
 
-interface VolunteerStudy {
+export interface VolunteerStudy {
   id: string;
   title: string;
   department: string;
@@ -22,79 +24,96 @@ interface VolunteerStudyCardProps {
 }
 
 export default function VolunteerStudyCard({ study }: VolunteerStudyCardProps) {
+  const { toggleSave, isSaved } = useSavedItems("volunteer");
+  const saved = isSaved(study.id);
+
   if (!study || !study.id) {
     return null;
   }
   return (
-    <Card className="h-full flex flex-col justify-between hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border-gray-200">
-      <CardHeader className="pb-4">
-        <Badge variant="outline" className="text-xs mb-2">
-          VOLUNTEER STUDY
-        </Badge>
+    <Link to={`/volunteer/${study.id}`}>
+      <Card className="relative h-full flex flex-col justify-between hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white border-gray-200">
+        <CardHeader className="pb-4">
+          <Badge variant="outline" className="text-xs mb-2 w-fit">
+            Volunteer Study
+          </Badge>
 
-        <CardTitle className="text-xl text-gray-900 leading-tight">
-          {study.title}
-        </CardTitle>
+          <Button
+          onClick={(e) => {
+            e.preventDefault();
+            toggleSave(study.id);
+          }}
+          variant="ghost"
+          size="icon"
+          className="absolute top-3 right-3 text-red-500 hover:text-red-600"
+        >
+          {saved ? <Heart fill="currentColor" /> : <Heart />}
+        </Button>
 
-        <CardDescription className="text-gray-600 mt-1">
-          <div className="flex items-center gap-1">
-            <Users className="h-4 w-4" />
-            <span>{study.department}</span>
-          </div>
-        </CardDescription>
-      </CardHeader>
+          <CardTitle className="text-xl text-gray-900 leading-tight">
+            {study.title}
+          </CardTitle>
 
-      <CardContent className="flex flex-col flex-grow pt-0">
-        {study.description && (
-          <div className="text-gray-700 text-sm mb-4 line-clamp-3">
-            {study.description}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-2 text-sm text-gray-600 mb-4">
-          {study.duration && (
+          <CardDescription className="text-gray-600 mt-1">
             <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              <span>{study.duration}</span>
+              <Users className="h-4 w-4" />
+              <span>{study.department}</span>
             </div>
-          )}
-          {study.location && (
-            <div className="flex items-center gap-1">
-              <MapPin className="h-4 w-4" />
-              <span>{study.location}</span>
-            </div>
-          )}
-          {study.compensation_details && (
-            <div className="flex items-center gap-1 text-green-700 font-medium">
-              <DollarSign className="h-4 w-4" />
-              <span>{study.compensation_details}</span>
-            </div>
-          )}
-        </div>
+          </CardDescription>
+        </CardHeader>
 
-        {study.eligibility_criteria && (
-          <div className="text-xs text-gray-500 italic mb-4">
-            Eligibility: {study.eligibility_criteria}
+        <CardContent className="flex flex-col flex-grow pt-0">
+          {study.description && (
+            <div className="text-gray-700 text-sm mb-4 line-clamp-3">
+              {study.description}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-2 text-sm text-gray-600 mb-4">
+            {study.duration && (
+              <div className="flex items-center gap-1">
+                <Calendar className="h-4 w-4" />
+                <span>{study.duration}</span>
+              </div>
+            )}
+            {study.location && (
+              <div className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                <span>{study.location}</span>
+              </div>
+            )}
+            {study.compensation_details && (
+              <div className="flex items-center gap-1 text-green-700 font-medium">
+                <DollarSign className="h-4 w-4" />
+                <span>{study.compensation_details}</span>
+              </div>
+            )}
           </div>
-        )}
 
-        <div className="mt-auto space-y-2">
-          {study.study_link && (
-            <a href={study.study_link} target="_blank" rel="noopener noreferrer">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700" size="sm">
-                Learn More
-              </Button>
-            </a>
+          {study.eligibility_criteria && (
+            <div className="text-xs text-gray-500 italic mb-4">
+              Eligibility: {study.eligibility_criteria}
+            </div>
           )}
-          {study.contact_email && (
-            <a href={`mailto:${study.contact_email}`}>
-              <Button variant="outline" className="w-full mt-2" size="sm">
-                Contact Study Coordinator
-              </Button>
-            </a>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+
+          <div className="mt-auto space-y-2">
+            {study.study_link && (
+              <a href={study.study_link} target="_blank" rel="noopener noreferrer">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700" size="sm">
+                  Learn More
+                </Button>
+              </a>
+            )}
+            {study.contact_email && (
+              <a href={`mailto:${study.contact_email}`}>
+                <Button variant="outline" className="w-full mt-2" size="sm">
+                  Contact Study Coordinator
+                </Button>
+              </a>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 }

@@ -258,7 +258,46 @@ export type Database = {
           contact_email?: string | null
         }
         Relationships: []
-      }
+      },
+      user_saved_items: {
+        Row: {
+          id: string
+          item_id: string
+          item_type: "research" | "volunteer"
+          user_id: string | null
+          created_at: string | null
+        },
+        Insert: {
+          id?: string
+          item_id: string
+          item_type: "research" | "volunteer"
+          user_id?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          item_id?: string
+          item_type?: "research" | "volunteer"
+          user_id?: string | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_saved_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "research_opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_saved_items_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      },
     }
     Views: {
       [_ in never]: never

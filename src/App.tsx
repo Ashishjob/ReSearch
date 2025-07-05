@@ -18,6 +18,9 @@ import Footer from "./components/Footer";
 import EmailTipsPage from "./pages/EmailTips";
 import GuidesPage from "./pages/Guides";
 import SubmitPage from "./pages/Submit";
+import ResearchDetail from "@/pages/ResearchDetail";
+import VolunteerDetail from "@/pages/VolunteerDetail";
+import SavedItemsPage from "./pages/Saved";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +43,9 @@ const App = () => (
             <Route path="/guides" element={<GuidesPage />} />
             <Route path="/email-tips" element={<EmailTipsPage />} />
             <Route path="/submit" element={<SubmitPage />} />
+            <Route path="/research/:id" element={<ResearchDetail />} />
+            <Route path="/volunteer/:id" element={<VolunteerDetail />} />
+            <Route path="/saved" element={<SavedItemsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
