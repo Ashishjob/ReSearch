@@ -1,5 +1,5 @@
 import React from "react";
-import { GraduationCap } from "lucide-react";
+import { TextSearch } from "lucide-react";
 import { Separator } from "./ui/separator";
 
 const Footer: React.FC = () => (
@@ -8,8 +8,8 @@ const Footer: React.FC = () => (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center space-x-2 mb-4">
-            <GraduationCap className="h-6 w-6" />
-            <span className="text-lg font-bold">ReSearch</span>
+            <TextSearch className="h-6 w-6" />
+            <span className="text-lg font-bold">researchr</span>
           </div>
           <p className="text-gray-400">
             Built to help UH students discover real research experiences - whether you're conducting research or volunteering to support it.
@@ -49,7 +49,7 @@ const Footer: React.FC = () => (
       <Separator className="my-8 bg-gray-700" />
 
       <div className="text-center text-gray-400">
-        <p>&copy; 2025 ReSearch. Made by a UH student for UH students.</p>
+        <p>&copy; 2025 researchr. Made by a student for students.</p>
       </div>
     </div>
   </div>

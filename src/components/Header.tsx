@@ -1,4 +1,4 @@
-import { GraduationCap, Menu } from "lucide-react";
+import { Menu, TextSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +22,9 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <GraduationCap className="h-8 w-8 text-blue-600" />
+            <TextSearch className="h-8 w-8 text-blue-600" />
             <a href="/" className="flex items-center space-x-2">
-              <h1 className="text-xl font-bold text-gray-900">ReSearch</h1>
+              <h1 className="text-xl font-bold text-gray-900">researchr</h1>
             </a>
           </div>
 
