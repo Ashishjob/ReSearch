@@ -9,12 +9,30 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const fullName = user?.user_metadata?.full_name;
   const firstName = fullName?.split(" ")[0];
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+      const checkAdmin = async () => {
+        const { data: { user }, error } = await supabase.auth.getUser();
+  
+        if (error || !user || user.email !== "ashishjob104@gmail.com") {
+          alert("You are not authorized to view this page.");
+          window.location.href = "/auth";
+          return;
+        }
+        setAuthChecked(true);
+      };
+  
+      checkAdmin();
+    }, []);
 
   return (
     <header className="bg-white shadow-sm border-b">
@@ -47,6 +65,11 @@ const Header = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  {authChecked &&
+                  <DropdownMenuItem onClick={() => navigate('/admin')}>
+                    Admin Page
+                  </DropdownMenuItem>
+                  }
                   <DropdownMenuItem onClick={() => navigate('/saved')}>
                     Saved Items
                   </DropdownMenuItem>
