@@ -64,20 +64,21 @@ const Header = () => {
                     {firstName ? `Welcome, ${firstName}` : "Account"}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {authChecked &&
+              <DropdownMenuContent align="end">
+                {user?.email === "ashishjob104@gmail.com" && (
                   <DropdownMenuItem onClick={() => navigate('/admin')}>
                     Admin Page
                   </DropdownMenuItem>
-                  }
-                  <DropdownMenuItem onClick={() => navigate('/saved')}>
-                    Saved Items
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={signOut}>
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                )}
+                <DropdownMenuItem onClick={() => navigate('/saved')}>
+                  Saved Items
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={signOut}>
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            
             ) : (
               <>
                 <Button variant="outline" size="sm" onClick={() => navigate('/auth')}>Sign In</Button>
