@@ -19,21 +19,6 @@ const Header = () => {
   const firstName = fullName?.split(" ")[0];
   const [authChecked, setAuthChecked] = useState(false);
 
-  useEffect(() => {
-      const checkAdmin = async () => {
-        const { data: { user }, error } = await supabase.auth.getUser();
-  
-        if (error || !user || user.email !== "ashishjob104@gmail.com") {
-          alert("You are not authorized to view this page.");
-          window.location.href = "/auth";
-          return;
-        }
-        setAuthChecked(true);
-      };
-  
-      checkAdmin();
-    }, []);
-
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
