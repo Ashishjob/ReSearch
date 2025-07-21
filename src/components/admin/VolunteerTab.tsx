@@ -223,7 +223,7 @@ export default function VolunteerTab() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-xl">
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{selected?.id ? "Edit Study" : "Add New Study"}</DialogTitle>
           </DialogHeader>
