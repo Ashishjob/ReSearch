@@ -203,7 +203,7 @@ export default function ResearchTab() {
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{selected?.id ? "Edit" : "New"}</DialogTitle></DialogHeader>
           {selected && (
             <div className="grid gap-4 py-4">
